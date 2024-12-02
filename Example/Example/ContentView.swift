@@ -12,7 +12,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            AcknowLibraryForm()
+            AcknowLibraryView(style: .form)
         }
     }
 }

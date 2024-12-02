@@ -10,8 +10,8 @@ import SwiftUI
 public struct AcknowLibraryList: View {
     public let library: AcknowLibrary
 
-    public init(library: AcknowLibrary? = nil) {
-        self.library = library ?? AcknowParser.defaultAcknowList() ?? .init(items: [])
+    public init(library: AcknowLibrary) {
+        self.library = library
     }
 
     public var body: some View {
