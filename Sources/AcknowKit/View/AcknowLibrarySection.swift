@@ -57,7 +57,7 @@ public struct AcknowLibrarySection: View {
         }
 
         private var label: some View {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(item.title)
                 HStack {
                     if let author = item.author {

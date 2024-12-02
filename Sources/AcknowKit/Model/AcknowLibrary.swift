@@ -22,7 +22,7 @@ public struct AcknowLibrary {
     public let header: LocalizedStringKey?
 
     /// Footer text to be displayed bolow the list of the acknowledgements.
-    public let footer: LocalizedStringKey?
+    public var footer: LocalizedStringKey?
 }
 
 extension AcknowLibrary {
