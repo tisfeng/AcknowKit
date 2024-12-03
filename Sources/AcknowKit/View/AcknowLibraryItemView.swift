@@ -10,10 +10,10 @@ import SwiftUI
 /// View that displays a single acknowledgement.
 public struct AcknowLibraryItemView: View {
     /// The acknowledgement item
-    public var item: AcknowLibrary.Item
+    @Binding private var item: AcknowLibrary.Item
 
-    public init(item: AcknowLibrary.Item) {
-        self.item = item
+    public init(item: Binding<AcknowLibrary.Item>) {
+        self._item = item
     }
 
     @Environment(\.openURL) private var openURL
@@ -47,6 +47,9 @@ public struct AcknowLibraryItemView: View {
             }
         }
         .navigationTitle(item.title)
+        .onAppear {
+            fetchLicenseIfNecessary()
+        }
     }
 
     private func canOpenRepository(for url: URL) -> Bool {
@@ -55,22 +58,40 @@ public struct AcknowLibraryItemView: View {
         }
         return scheme == "http" || scheme == "https"
     }
+
+    private func fetchLicenseIfNecessary() {
+        guard item.text == nil,
+            let repository = item.repository,
+            GitHubAPI.isGitHubRepository(repository)
+        else {
+            return
+        }
+
+        Task {
+            do {
+                let licenseContent = try await GitHubAPI.getLicense(for: repository)
+                item.text = licenseContent
+            } catch {
+                print("Failed to fetch license: ", error)
+            }
+        }
+    }
 }
 
 #Preview("Complete") {
     NavigationStack {
-        AcknowLibraryItemView(item: .itemComplete)
+        AcknowLibraryItemView(item: .constant(.itemComplete))
     }
 }
 
 #Preview("Empty") {
     NavigationStack {
-        AcknowLibraryItemView(item: .itemEmpty)
+        AcknowLibraryItemView(item: .constant(.itemEmpty))
     }
 }
 
 #Preview("Demo") {
     NavigationStack {
-        AcknowLibraryItemView(item: .init(title: "Demo", text: "Demo Content"))
+        AcknowLibraryItemView(item: .constant(.init(title: "Demo", text: "Demo Content")))
     }
 }

@@ -56,6 +56,11 @@ open class GitHubAPI {
         return task
     }
 
+    /// Gets the repository license.
+    /// - Parameter repository: The GitHub URL for the repository. For example: `https://github.com/vtourraine/AcknowList.git`
+    ///
+    /// GitHub API documentation
+    /// https://docs.github.com/en/rest/licenses/licenses#get-the-license-for-a-repository
     public static func getLicense(for repository: URL) async throws -> String {
         let request = getLicenseRequest(for: repository)
         let (data, response) = try await URLSession.shared.data(for: request)

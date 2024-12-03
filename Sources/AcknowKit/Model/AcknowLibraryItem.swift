@@ -21,7 +21,7 @@ extension AcknowLibrary {
         public let title: String
 
         /// The license content of the library
-        public let text: String?
+        public var text: String?
 
         /// The name of the library's author
         public let author: String?

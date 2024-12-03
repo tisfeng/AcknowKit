@@ -32,13 +32,17 @@ public struct AcknowLibrarySection: View {
 
     /// View that displays a row in a list of acknowledgements.
     public struct RowItem: View {
-        public let item: AcknowLibrary.Item
+        @State private var item: AcknowLibrary.Item
         @Environment(\.openURL) private var openURL
 
+        public init(item: AcknowLibrary.Item) {
+            _item = State(initialValue: item)
+        }
+
         public var body: some View {
-            if let _ = item.text {
+            if item.text != nil || (item.repository != nil && GitHubAPI.isGitHubRepository(item.repository!)) {
                 NavigationLink {
-                    AcknowLibraryItemView(item: item)
+                    AcknowLibraryItemView(item: $item)
                 } label: {
                     label
                 }
