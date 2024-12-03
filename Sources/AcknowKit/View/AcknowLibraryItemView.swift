@@ -69,8 +69,14 @@ public struct AcknowLibraryItemView: View {
 
         Task {
             do {
-                let licenseContent = try await GitHubAPI.getLicense(for: repository)
-                item.text = licenseContent
+                let gitHubLicense = try await GitHubAPI.getLicense(for: repository)
+                item.text = gitHubLicense.content.unbase64
+                item.author = GitHubAPI.getAuthorName(from: repository)
+
+                if let license = gitHubLicense.license, let url = license.url {
+                    let licenseName = license.spdxID ?? license.name
+                    item.license = .init(rawValue: licenseName, link: URL(string: url))
+                }
             } catch {
                 print("Failed to fetch license: ", error)
             }

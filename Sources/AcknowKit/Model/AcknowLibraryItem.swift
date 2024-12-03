@@ -24,10 +24,10 @@ extension AcknowLibrary {
         public var text: String?
 
         /// The name of the library's author
-        public let author: String?
+        public var author: String?
 
         /// The license type of the library
-        public let license: License?
+        public var license: License?
 
         /// The repository URL of the library's source code
         public let repository: URL?

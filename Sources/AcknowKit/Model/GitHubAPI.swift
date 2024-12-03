@@ -26,42 +26,12 @@ import Foundation
 /// An object that interacts with the GitHub API.
 open class GitHubAPI {
 
-    /**
-     Gets the repository license.
-     - Parameters:
-        - repository: The GitHub URL for the repository. For example: `https://github.com/vtourraine/AcknowList.git`
-        - completionHandler: The completion handler to call when the load request is complete. This handler is executed on the main queue. It takes a `Result` parameter, with either the body of the license, or an error object that indicates why the request failed.
-     */
-    @discardableResult public static func getLicense(
-        for repository: URL, completionHandler: @escaping (Result<String, Error>) -> Void
-    ) -> URLSessionDataTask {
-        // GitHub API documentation
-        // https://docs.github.com/en/rest/licenses/licenses#get-the-license-for-a-repository
-
-        let request = getLicenseRequest(for: repository)
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                if (response as? HTTPURLResponse)?.statusCode == 200,
-                    let data,
-                    let text = String(data: data, encoding: .utf8)
-                {
-                    completionHandler(.success(text))
-                } else {
-                    completionHandler(.failure(error ?? URLError(URLError.Code.unknown)))
-                }
-            }
-        }
-
-        task.resume()
-        return task
-    }
-
     /// Gets the repository license.
     /// - Parameter repository: The GitHub URL for the repository. For example: `https://github.com/vtourraine/AcknowList.git`
     ///
     /// GitHub API documentation
     /// https://docs.github.com/en/rest/licenses/licenses#get-the-license-for-a-repository
-    public static func getLicense(for repository: URL) async throws -> String {
+    public static func getLicense(for repository: URL) async throws -> GitHubLicense {
         let request = getLicenseRequest(for: repository)
         let (data, response) = try await URLSession.shared.data(for: request)
 
@@ -69,11 +39,8 @@ open class GitHubAPI {
             throw URLError(.badServerResponse)
         }
 
-        guard let licenseContent = String(data: data, encoding: .utf8) else {
-            throw URLError(.cannotDecodeContentData)
-        }
-
-        return licenseContent
+        let license = try JSONDecoder().decode(GitHubLicense.self, from: data)
+        return license
     }
 
     /**
@@ -84,12 +51,25 @@ open class GitHubAPI {
         return repository.absoluteString.hasPrefix("https://github.com/")
     }
 
+    /// Get author name from the repository URL.
+    /// - Parameter repository: The GitHub URL for the repository. For example: `https://github.com/vtourraine/AcknowList.git`
+    /// - returns: The author name, vtourraine in the example.
+    public static func getAuthorName(from repository: URL) -> String? {
+        if isGitHubRepository(repository) {
+            let pathComponents = repository.pathComponents
+            if pathComponents.count >= 1 {
+                return pathComponents[1]
+            }
+        }
+        return nil
+    }
+
     internal static func getLicenseRequest(for repository: URL) -> URLRequest {
         let path = pathWithoutExtension(for: repository)
         let url = "https://api.github.com/repos\(path)/license"
         var request = URLRequest(url: URL(string: url)!)
         request.allHTTPHeaderFields = [
-            "Accept": "application/vnd.github.raw",
+            "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
         ]
         return request
