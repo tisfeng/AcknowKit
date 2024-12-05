@@ -37,14 +37,22 @@ open class AcknowPackageDecoder: AcknowDecoder {
         let decoder = JSONDecoder()
         if let root = try? decoder.decode(JSONV1Root.self, from: data) {
             let acknows = root.object.pins.map {
-                AcknowLibrary.Item(title: $0.package, repository: URL(string: $0.repositoryURL))
+                let repositoryURL = URL(string: $0.repositoryURL)!
+                return AcknowLibrary.Item(
+                    title: $0.package,
+                    author: GitHubAPI.getAuthorName(from: repositoryURL),
+                    repository: repositoryURL)
             }
             return AcknowLibrary(items: acknows, header: nil, footer: nil)
         }
 
         let root = try decoder.decode(JSONV2Root.self, from: data)
         let acknows = root.pins.map {
-            AcknowLibrary.Item(title: $0.identity, repository: URL(string: $0.location))
+            let repositoryURL = URL(string: $0.location)!
+            return AcknowLibrary.Item(
+                title: $0.identity,
+                author: GitHubAPI.getAuthorName(from: repositoryURL),
+                repository: repositoryURL)
         }
         return AcknowLibrary(items: acknows, header: nil, footer: nil)
     }

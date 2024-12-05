@@ -71,7 +71,6 @@ public struct AcknowLibraryItemView: View {
             do {
                 let gitHubLicense = try await GitHubAPI.getLicense(for: repository)
                 item.text = gitHubLicense.content.unbase64
-                item.author = GitHubAPI.getAuthorName(from: repository)
 
                 if let license = gitHubLicense.license, let url = license.url {
                     let licenseName = license.spdxID ?? license.name
