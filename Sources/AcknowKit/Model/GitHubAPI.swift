@@ -31,6 +31,8 @@ open class GitHubAPI {
     ///
     /// GitHub API documentation
     /// https://docs.github.com/en/rest/licenses/licenses#get-the-license-for-a-repository
+    ///
+    /// - Important: GitHub API primary rate limit for unauthenticated requests is 60 requests per hour. https://docs.github.com/zh/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#primary-rate-limit-for-unauthenticated-users
     public static func getLicense(for repository: URL) async throws -> GitHubLicense {
         let request = getLicenseRequest(for: repository)
         let (data, response) = try await URLSession.shared.data(for: request)

@@ -12,6 +12,8 @@ public struct AcknowLibraryItemView: View {
     /// The acknowledgement item
     @Binding private var item: AcknowLibrary.Item
 
+    @State private var isLoading = false
+
     public init(item: Binding<AcknowLibrary.Item>) {
         self._item = item
     }
@@ -19,19 +21,29 @@ public struct AcknowLibraryItemView: View {
     @Environment(\.openURL) private var openURL
 
     public var body: some View {
-        ScrollView {
-            #if os(macOS)
-            Text(item.title)
-                .font(.title)
-                .padding()
-            #endif
-            if let text = item.text {
-                Text(text)
-                    .font(.body)
-                    .padding()
-                #if os(macOS)
-                    .copyable([text])
-                #endif
+        ZStack {
+            ScrollView {
+                VStack {
+#if os(macOS)
+                    Text(item.title)
+                        .font(.title)
+                        .padding()
+#endif
+                    if let text = item.text {
+                        Text(text)
+                            .font(.body)
+                            .padding()
+                            .textSelection(.enabled)
+#if os(macOS)
+                            .copyable([text])
+#endif
+                    }
+                }
+            }
+
+            if isLoading {
+                ProgressView()
+                    .scaleEffect(1.3)
             }
         }
         .toolbar {
@@ -69,6 +81,8 @@ public struct AcknowLibraryItemView: View {
 
         Task {
             do {
+                isLoading = true
+
                 let gitHubLicense = try await GitHubAPI.getLicense(for: repository)
                 item.text = gitHubLicense.content.unbase64
 
@@ -76,7 +90,10 @@ public struct AcknowLibraryItemView: View {
                     let licenseName = license.spdxID ?? license.name
                     item.license = .init(rawValue: licenseName, link: URL(string: url))
                 }
+
+                isLoading = false
             } catch {
+                isLoading = false
                 print("Failed to fetch license: ", error)
             }
         }
