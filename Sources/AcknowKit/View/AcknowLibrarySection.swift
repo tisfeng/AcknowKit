@@ -69,16 +69,22 @@ public struct AcknowLibrarySection: View {
                     HStack {
                         Text(item.title)
                     }
-                    HStack {
-                        if let author = item.author {
-                            Text("Author: " + author)
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                        }
-                        if let license = item.license {
-                            Text("License: " + license.rawValue)
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
+
+                    let author = item.author
+                    let license = item.license
+
+                    if author != nil || license != nil {
+                        HStack {
+                            if let author {
+                                Text("Author: " + author)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
+                            if let license {
+                                Text("License: " + license.rawValue)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
