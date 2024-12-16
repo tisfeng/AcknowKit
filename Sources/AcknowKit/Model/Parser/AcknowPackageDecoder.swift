@@ -35,28 +35,30 @@ open class AcknowPackageDecoder: AcknowDecoder {
      */
     public func decode(from data: Data) throws -> AcknowLibrary {
         let decoder = JSONDecoder()
+        var acknows: [AcknowLibrary.Item] = []
+
         if let root = try? decoder.decode(JSONV1Root.self, from: data) {
-            let acknows = root.object.pins.map {
+             acknows = root.object.pins.map {
                 let repositoryURL = URL(string: $0.repositoryURL)!
-                return AcknowLibrary.Item(
+                 return .init(
                     title: $0.package,
                     author: GitHubAPI.getAuthorName(from: repositoryURL),
                     repository: repositoryURL,
                     source: .package)
             }
-            return AcknowLibrary(items: acknows, header: nil, footer: nil)
+            return .init(items: acknows, header: nil, footer: nil)
         }
 
         let root = try decoder.decode(JSONV2Root.self, from: data)
-        let acknows = root.pins.map {
+        acknows = root.pins.map {
             let repositoryURL = URL(string: $0.location)!
-            return AcknowLibrary.Item(
+            return .init(
                 title: $0.identity,
                 author: GitHubAPI.getAuthorName(from: repositoryURL),
                 repository: repositoryURL,
                 source: .package)
         }
-        return AcknowLibrary(items: acknows, header: nil, footer: nil)
+        return .init(items: acknows, header: nil, footer: nil)
     }
 
     // MARK: - JSON format

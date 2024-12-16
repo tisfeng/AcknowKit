@@ -29,7 +29,7 @@ public protocol AcknowDecoder {
     /**
      Returns acknowledgements decoded from a structured object.
      - Parameter data: The acknowledgements object to decode.
-     - Returns: A `AcknowList` value, if the decoder can parse the data.
+     - Returns: A `AcknowLibrary` value, if the decoder can parse the data.
      */
     func decode(from data: Data) throws -> AcknowLibrary
 }
@@ -52,9 +52,9 @@ open class AcknowParser {
 
     /**
      Parses the acknowledgements from the `Pods-###-acknowledgements.plist` and `Package.resolved` files in the main bundle, and merges the result.
-     - Returns: a `AcknowList` instance, or `nil` if no valid file was found.
+     - Returns: a `AcknowLibrary` instance, or `nil` if no valid file was found.
      */
-    open class func defaultAcknowList() -> AcknowLibrary? {
+    open class func defaultAcknowLibrary() -> AcknowLibrary? {
         let pods = defaultPods()
         let packages = defaultPackages()
         if let pods = pods, let packages = packages {
@@ -69,7 +69,7 @@ open class AcknowParser {
 
     /**
      Parses the acknowledgements from the `Pods-###-acknowledgements.plist` file in the main bundle.
-     - Returns: a `AcknowList` instance, or `nil` if no valid file was found.
+     - Returns: a `AcknowLibrary` instance, or `nil` if no valid file was found.
      */
     open class func defaultPods() -> AcknowLibrary? {
         guard let bundleName = bundleName() else {
@@ -93,7 +93,7 @@ open class AcknowParser {
 
     /**
      Parses the acknowledgements from the `Package.resolved` file in the main bundle.
-     - Returns: a `AcknowList` instance, or `nil` if no valid `Package.resolved` was found.
+     - Returns: a `AcknowLibrary` instance, or `nil` if no valid `Package.resolved` was found.
      */
     open class func defaultPackages() -> AcknowLibrary? {
         guard

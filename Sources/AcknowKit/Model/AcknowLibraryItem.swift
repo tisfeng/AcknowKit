@@ -15,7 +15,15 @@ extension AcknowLibrary {
     }
 
     public struct Item {
-        public init(title: String, text: String? = nil, author: String? = nil, license: License? = nil, repository: URL? = nil, source: Source = .manual) {
+
+        public init(
+            title: String,
+            text: String? = nil,
+            author: String? = nil,
+            license: License? = nil,
+            repository: URL? = nil,
+            source: Source = .manual
+        ) {
             self.title = title
             self.text = text
             self.author = author

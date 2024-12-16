@@ -18,7 +18,7 @@ public struct AcknowLibraryView: View {
 
     public init(library: AcknowLibrary? = nil, style: Style = .form) {
         self.style = style
-        self.library = library ?? AcknowParser.defaultAcknowList() ?? .init(items: [])
+        self.library = library ?? AcknowParser.defaultAcknowLibrary() ?? .init(items: [])
     }
 
     public var body: some View {
