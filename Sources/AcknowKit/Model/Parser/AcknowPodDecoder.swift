@@ -31,7 +31,7 @@ open class AcknowPodDecoder: AcknowDecoder {
     /**
      Returns acknowledgements decoded from a CocoaPods acknowledgements plist file object.
      - Parameter data: The CocoaPods acknowledgements plist file object to decode.
-     - Returns: A `AcknowList` value, if the decoder can parse the data.
+     - Returns: A `AcknowLibrary` value, if the decoder can parse the data.
      */
     public func decode(from data: Data) throws -> AcknowLibrary {
         let rootDictionary =
@@ -66,7 +66,8 @@ open class AcknowPodDecoder: AcknowDecoder {
 
             return AcknowLibrary.Item(
                 title: title, text: textWithoutNewlines,
-                license: license.flatMap { .init(rawValue: $0) })
+                license: license.flatMap { .init(rawValue: $0) },
+                source: .pod)
         }
 
         return AcknowLibrary(

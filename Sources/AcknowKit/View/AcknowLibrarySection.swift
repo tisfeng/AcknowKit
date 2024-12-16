@@ -40,14 +40,17 @@ public struct AcknowLibrarySection: View {
         }
 
         public var body: some View {
-            if item.text != nil || (item.repository != nil && GitHubAPI.isGitHubRepository(item.repository!)) {
+            if item.text != nil
+                || (item.repository != nil && GitHubAPI.isGitHubRepository(item.repository!))
+            {
                 NavigationLink {
                     AcknowLibraryItemView(item: $item)
                 } label: {
                     label
                 }
             } else if let repository = item.repository,
-                      canOpenRepository(for: repository) {
+                canOpenRepository(for: repository)
+            {
                 Link(destination: repository) {
                     HStack {
                         label.foregroundColor(.primary)
@@ -61,20 +64,34 @@ public struct AcknowLibrarySection: View {
         }
 
         private var label: some View {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(item.title)
-                HStack {
-                    if let author = item.author {
-                        Text("Author: " + author)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
+            HStack(spacing: 15) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(item.title)
                     }
-                    if let license = item.license {
-                        Text("License: " + license.rawValue)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
+                    HStack {
+                        if let author = item.author {
+                            Text("Author: " + author)
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                        }
+                        if let license = item.license {
+                            Text("License: " + license.rawValue)
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
+
+                Spacer()
+
+                // Source tag
+                Text(item.source.rawValue)
+                    .font(.caption)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.secondary.opacity(0.2))
+                    .clipShape(RoundedRectangle(cornerRadius: 4))
             }
         }
 

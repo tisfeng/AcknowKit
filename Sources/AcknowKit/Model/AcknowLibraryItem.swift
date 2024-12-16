@@ -8,13 +8,20 @@
 import SwiftUI
 
 extension AcknowLibrary {
+    public enum Source: String {
+        case pod = "Pod"
+        case package = "Package"
+        case manual = "Manual"
+    }
+
     public struct Item {
-        public init(title: String, text: String? = nil, author: String? = nil, license: License? = nil, repository: URL? = nil) {
+        public init(title: String, text: String? = nil, author: String? = nil, license: License? = nil, repository: URL? = nil, source: Source = .manual) {
             self.title = title
             self.text = text
             self.author = author
             self.license = license
             self.repository = repository
+            self.source = source
         }
 
         /// The name of the library
@@ -31,6 +38,9 @@ extension AcknowLibrary {
 
         /// The repository URL of the library's source code
         public let repository: URL?
+
+        /// The source of the library
+        public let source: Source
     }
 }
 

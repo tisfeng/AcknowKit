@@ -41,7 +41,8 @@ open class AcknowPackageDecoder: AcknowDecoder {
                 return AcknowLibrary.Item(
                     title: $0.package,
                     author: GitHubAPI.getAuthorName(from: repositoryURL),
-                    repository: repositoryURL)
+                    repository: repositoryURL,
+                    source: .package)
             }
             return AcknowLibrary(items: acknows, header: nil, footer: nil)
         }
@@ -52,7 +53,8 @@ open class AcknowPackageDecoder: AcknowDecoder {
             return AcknowLibrary.Item(
                 title: $0.identity,
                 author: GitHubAPI.getAuthorName(from: repositoryURL),
-                repository: repositoryURL)
+                repository: repositoryURL,
+                source: .package)
         }
         return AcknowLibrary(items: acknows, header: nil, footer: nil)
     }
