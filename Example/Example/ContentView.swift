@@ -5,18 +5,30 @@
 //  Created by tisfeng on 2024/12/2.
 //
 
-import SwiftUI
 import AcknowKit
+import SwiftUI
 
 struct ContentView: View {
-
     var body: some View {
         NavigationStack {
-            AcknowLibraryView(style: .form)
+            AcknowLibraryView(manualItems: manualItems)
         }
     }
-}
 
+    /// Manual acknow items
+    private var manualItems: [AcknowLibrary.Item] =
+        [
+            .init(
+                title: "DictionaryKit",
+                author: "NSHipster",
+                repository: URL(string: "https://github.com/NSHipster/DictionaryKit.git")
+            ),
+            .init(
+                title: "Snip",
+                repository: URL(string: "https://github.com/isee15/Capture-Screen-For-Multi-Screens-On-Mac")
+            ),
+        ]
+}
 
 #Preview {
     ContentView()

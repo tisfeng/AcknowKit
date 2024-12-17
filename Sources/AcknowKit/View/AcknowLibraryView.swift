@@ -16,9 +16,22 @@ public struct AcknowLibraryView: View {
         case list
     }
 
-    public init(library: AcknowLibrary? = nil, style: Style = .form) {
+    /// Initializes a new `AcknowLibraryView`.
+    /// - Parameters:
+    ///   - library: The acknowledgements library to display. If nil, the default acknowledgements library will be used.
+    ///   - manualItems: An array of acknowledgements to be added manually to the acknowledgements library.
+    ///   - style: The style of the view, defaults to `.form`.
+    public init(
+        library: AcknowLibrary? = AcknowParser.defaultAcknowLibrary(),
+        manualItems: [AcknowLibrary.Item] = [],
+        style: Style = .form
+    ) {
         self.style = style
-        self.library = library ?? AcknowParser.defaultAcknowLibrary() ?? .init(items: [])
+
+        var acknowLibrary = library
+        let defaultItems = acknowLibrary?.items ?? []
+        acknowLibrary?.items = manualItems + defaultItems
+        self.library = acknowLibrary ?? .init(items: manualItems)
     }
 
     public var body: some View {
