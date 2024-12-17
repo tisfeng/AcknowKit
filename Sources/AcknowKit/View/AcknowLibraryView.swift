@@ -30,6 +30,7 @@ public struct AcknowLibraryView: View {
 
         var acknowLibrary = library
         let defaultItems = acknowLibrary?.items ?? []
+
         acknowLibrary?.items = manualItems + defaultItems
         self.library = acknowLibrary ?? .init(items: manualItems)
     }

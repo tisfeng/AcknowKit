@@ -9,7 +9,11 @@ import SwiftUI
 
 /// An acknowledgements library with an array of `AcknowLibraryItem` with optional header and footer texts.
 public struct AcknowLibrary {
-    public init(items: [Item], header: LocalizedStringKey? = nil, footer: LocalizedStringKey? = nil) {
+    public init(
+        items: [Item],
+        header: LocalizedStringKey? = nil,
+        footer: LocalizedStringKey? = nil
+    ) {
         self.items = items
         self.header = header
         self.footer = footer

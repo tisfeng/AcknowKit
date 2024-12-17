@@ -33,6 +33,7 @@ public struct AcknowLibrarySection: View {
     /// View that displays a row in a list of acknowledgements.
     public struct RowItem: View {
         @State private var item: AcknowLibrary.Item
+        
         @Environment(\.openURL) private var openURL
 
         public init(item: AcknowLibrary.Item) {
@@ -89,15 +90,17 @@ public struct AcknowLibrarySection: View {
                     }
                 }
 
-                Spacer()
+                if item.showSource {
+                    Spacer()
 
-                // Source tag
-                Text(item.source.rawValue)
-                    .font(.caption)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.secondary.opacity(0.2))
-                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                    // Source tag
+                    Text(item.source.rawValue)
+                        .font(.caption)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.secondary.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                }
             }
         }
 
