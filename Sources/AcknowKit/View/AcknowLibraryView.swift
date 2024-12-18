@@ -20,6 +20,7 @@ public struct AcknowLibraryView: View {
     /// - Parameters:
     ///   - library: The acknowledgements library to display. If nil, the default acknowledgements library will be used.
     ///   - manualItems: An array of acknowledgements to be added manually to the acknowledgements library.
+    ///   - isSourceVisible: Whether the source code of the acknowledgements should be visible. Defaults to `true`.
     ///   - style: The style of the view, defaults to `.form`.
     public init(
         library: AcknowLibrary? = AcknowParser.defaultAcknowLibrary(),

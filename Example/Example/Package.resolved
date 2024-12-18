@@ -1,5 +1,5 @@
 {
-  "originHash" : "6b2d9735092da5c9bc9b0a4954947f373d68f35b0939813ad8f54d785301c35e",
+  "originHash" : "4a7f2524fc9bd0ebb344503d11e5cf9e841d8686a179f673578ba4fbc789b0b5",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -11,11 +11,12 @@
       }
     },
     {
-      "identity" : "acknowlist",
+      "identity" : "acknowkit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tisfeng/AcknowList",
+      "location" : "https://github.com/tisfeng/AcknowKit",
       "state" : {
-        "revision" : "6a7af0bb6ec82f77e2835b290c7e4fe950b8f7d8"
+        "branch" : "dev",
+        "revision" : "f7cf24530ac1f3a225219ba89909f0f637c0b899"
       }
     },
     {
@@ -502,15 +503,6 @@
       "state" : {
         "revision" : "a823735db57b46100b0c61cdfc5a08525b1e7cad",
         "version" : "4.102.1"
-      }
-    },
-    {
-      "identity" : "vortex",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/twostraws/Vortex",
-      "state" : {
-        "revision" : "bb48b128d3c13c68c68e83833c622eec9f6c701f",
-        "version" : "1.0.1"
       }
     },
     {
