@@ -59,11 +59,8 @@ open class AcknowParser {
         let packages = defaultPackages()
         if let pods = pods, let packages = packages {
             var acknowList = pods + packages
-
-            // Remove the footer text, and show the source If have both pods and packages libraries.
+            // Remove the footer text if have both pods and packages libraries.
             acknowList.footer = nil
-            acknowList.items.showSource(true)
-
             return acknowList
         } else {
             return pods ?? packages

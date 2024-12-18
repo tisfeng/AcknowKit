@@ -24,6 +24,7 @@ public struct AcknowLibraryView: View {
     public init(
         library: AcknowLibrary? = AcknowParser.defaultAcknowLibrary(),
         manualItems: [AcknowLibrary.Item] = [],
+        isSourceVisible: Bool = true,
         style: Style = .form
     ) {
         self.style = style
@@ -32,6 +33,8 @@ public struct AcknowLibraryView: View {
         let defaultItems = acknowLibrary?.items ?? []
 
         acknowLibrary?.items = manualItems + defaultItems
+        acknowLibrary?.items.setSourceVisibility(isSourceVisible)
+
         self.library = acknowLibrary ?? .init(items: manualItems)
     }
 

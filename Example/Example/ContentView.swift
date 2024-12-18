@@ -10,10 +10,6 @@ import SwiftUI
 
 struct ContentView: View {
 
-    init() {
-        manualItems.showSource(true)
-    }
-
     var body: some View {
         NavigationStack {
             AcknowLibraryView(manualItems: manualItems)

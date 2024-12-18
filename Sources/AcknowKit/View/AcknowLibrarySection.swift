@@ -90,7 +90,7 @@ public struct AcknowLibrarySection: View {
                     }
                 }
 
-                if item.showSource {
+                if item.isSourceVisible {
                     Spacer()
 
                     // Source tag

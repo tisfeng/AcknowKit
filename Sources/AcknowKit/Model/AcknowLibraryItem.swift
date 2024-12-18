@@ -23,7 +23,7 @@ extension AcknowLibrary {
             license: License? = nil,
             repository: URL? = nil,
             source: Source = .manual,
-            showSource: Bool = false
+            isSourceVisible: Bool = true
         ) {
             self.title = title
             self.text = text
@@ -31,7 +31,7 @@ extension AcknowLibrary {
             self.license = license
             self.repository = repository
             self.source = source
-            self.showSource = showSource
+            self.isSourceVisible = isSourceVisible
         }
 
         /// The name of the library
@@ -52,8 +52,8 @@ extension AcknowLibrary {
         /// The source of the library
         public let source: Source
 
-        /// A boolean value that determines whether to show the source of the library
-        public var showSource: Bool
+        /// A boolean value that determines whether the library source is visible
+        public var isSourceVisible: Bool
     }
 }
 
@@ -64,14 +64,13 @@ extension AcknowLibrary.Item: Identifiable {
 }
 
 public extension [AcknowLibrary.Item] {
-    mutating func showSource(_ showFlag: Bool) {
+    mutating func setSourceVisibility(_ isVisible: Bool) {
         for index in self.indices {
-            self[index].showSource = showFlag
+            self[index].isSourceVisible = isVisible
         }
     }
 
-    var isShowSource: Bool {
-        allSatisfy { $0.showSource }
+    var isSourceVisible: Bool {
+        allSatisfy { $0.isSourceVisible }
     }
 }
-
